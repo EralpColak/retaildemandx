@@ -8,3 +8,10 @@ stages:
     deps:
       - data/raw/sales.parquet
       - src/data/validate.py
+  features:
+    cmd: python -m src.features.build_features
+    deps:
+      - data/raw/sales.parquet
+      - src/features/build_features.py
+    outs:
+      - data/processed/features.parquet
