@@ -3,3 +3,8 @@ stages:
     cmd: python -m src.data.ingest_synthetic --out_dir data/raw --start 2024-01-01 --end 2024-03-31 --n_stores 8 --n_skus 5
     outs:
       - data/raw/sales.parquet
+  validate:
+    cmd: python -m src.data.validate
+    deps:
+      - data/raw/sales.parquet
+      - src/data/validate.py

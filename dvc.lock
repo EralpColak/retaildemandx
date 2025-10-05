@@ -8,3 +8,14 @@ stages:
       hash: md5
       md5: 5c0ec17cef678b61865036d5ca1b85ef
       size: 174072
+  validate:
+    cmd: python -m src.data.validate
+    deps:
+    - path: data/raw/sales.parquet
+      hash: md5
+      md5: 5c0ec17cef678b61865036d5ca1b85ef
+      size: 174072
+    - path: src/data/validate.py
+      hash: md5
+      md5: 5bd7bec365b3aba96ddca68f5a0d9740
+      size: 1214
