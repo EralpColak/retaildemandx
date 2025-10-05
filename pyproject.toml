@@ -1,0 +1,19 @@
+[project]
+name = "retaildemandx"
+version = "0.1.0"
+requires-python = ">=3.10"
+dependencies = [
+  "pandas", "numpy", "scikit-learn",
+  "lightgbm", "xgboost",
+  "mlflow",
+  "prefect",
+  "pydantic", "fastapi", "uvicorn",
+  "dvc[s3]",
+  "pyyaml", "python-dateutil",
+  "evidently",
+  "pandera",
+  "holidays"
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
