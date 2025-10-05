@@ -1,0 +1,10 @@
+schema: '2.0'
+stages:
+  ingest_synth:
+    cmd: python -m src.data.ingest_synthetic --out_dir data/raw --start 
+      2024-01-01 --end 2024-03-31 --n_stores 8 --n_skus 5
+    outs:
+    - path: data/raw/sales.parquet
+      hash: md5
+      md5: 5c0ec17cef678b61865036d5ca1b85ef
+      size: 174072
