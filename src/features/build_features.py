@@ -22,25 +22,21 @@ def add_rolling(df, group_cols, target_col="sales", windows=[3, 6, 12, 24]):
 def build_features(in_path="data/raw/sales.parquet", out_path="data/processed/features.parquet"):
     df = pd.read_parquet(in_path)
 
-    # timestamp sıralama
     df = df.sort_values(["store_id", "sku", "ts"])
 
-    # lag ve rolling özellikler
     df = add_lags(df, ["store_id", "sku"])
     df = add_rolling(df, ["store_id", "sku"])
 
-    # sin/cos mevsimsellik zaten var (sin_hour, cos_hour), haftalık ekleyelim
+    
     df["sin_dow"] = np.sin(2 * np.pi * df["dow"] / 7)
     df["cos_dow"] = np.cos(2 * np.pi * df["dow"] / 7)
 
-    # etkileşimler
+   
     df["promo_x_holiday"] = df["promo"] * df["is_holiday"].astype(int)
     df["promo_x_weekend"] = df["promo"] * df["is_weekend"].astype(int)
 
-    # boş değerleri (lag/rolling sonrası) temizle
     df = df.dropna()
 
-    # çıktı dizinini oluştur
     pathlib.Path(out_path).parent.mkdir(parents=True, exist_ok=True)
     df.to_parquet(out_path, index=False)
     print(f"✅ Features saved to {out_path} — shape: {df.shape}")

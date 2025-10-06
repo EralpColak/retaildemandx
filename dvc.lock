@@ -6,8 +6,8 @@ stages:
     outs:
     - path: data/raw/sales.parquet
       hash: md5
-      md5: 5c0ec17cef678b61865036d5ca1b85ef
-      size: 174072
+      md5: b27dbd51e92386bc33177f031884db9b
+      size: 175293
   validate:
     cmd: python -m src.data.validate
     deps:
@@ -24,8 +24,8 @@ stages:
     deps:
     - path: data/raw/sales.parquet
       hash: md5
-      md5: 5c0ec17cef678b61865036d5ca1b85ef
-      size: 174072
+      md5: b27dbd51e92386bc33177f031884db9b
+      size: 175293
     - path: src/features/build_features.py
       hash: md5
       md5: ff671166fc5b0ccd51c8dae87745df53
@@ -33,8 +33,8 @@ stages:
     outs:
     - path: data/processed/features.parquet
       hash: md5
-      md5: f6893d06fc73797904321d000411476f
-      size: 1961118
+      md5: e14e65b547cd607ec10e5c852c8f9b1e
+      size: 1964229
   train:
     cmd: python -m src.models.train
     deps:

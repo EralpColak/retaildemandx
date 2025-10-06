@@ -1,0 +1,12 @@
+.venv
+__pycache__
+*.pyc
+.git
+.gitignore
+.dvc
+.notebooks
+data/raw
+artifacts/models
+artifacts/reports
+artifacts/forecasts
+artifacts/registry

@@ -1,12 +1,23 @@
-.venv/
+# Python
 __pycache__/
+*.pyc
+*.pyo
+*.pyd
+.venv/
+env/
+venv/
+*.egg-info/
+*.egg
+
+# DVC & MLflow artefaktları
+artifacts/
+data/
 .dvc/
-.mypy_cache/
-.pytest_cache/
 mlruns/
-data/*.csv
-data/*.parquet
-data/raw/
-data/interim/
-data/processed/
+*.parquet
+
+# System
 .DS_Store
+.idea/
+.vscode/
+*.log

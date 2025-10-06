@@ -1,0 +1,14 @@
+artifact_uri: file:///Users/eralpcolak/Desktop/retaildemandx/mlruns/885305818833668314/dc74edacc8ab4e19878cc450cdb695b3/artifacts
+end_time: 1759753462307
+entry_point_name: ''
+experiment_id: '885305818833668314'
+lifecycle_stage: active
+run_id: dc74edacc8ab4e19878cc450cdb695b3
+run_name: lgbm_direct_h1-24
+source_name: ''
+source_type: 4
+source_version: ''
+start_time: 1759753462146
+status: 4
+tags: []
+user_id: eralpcolak

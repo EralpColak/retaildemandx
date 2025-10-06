@@ -1,4 +1,4 @@
-# src/pipelines/batch_forecast.py
+
 import argparse, json, pathlib
 import joblib
 import pandas as pd
