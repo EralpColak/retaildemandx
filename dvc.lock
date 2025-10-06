@@ -74,3 +74,48 @@ stages:
       md5: c58c0b291d5a67b4a8afad517fa501ff.dir
       size: 507169
       nfiles: 5
+  register:
+    cmd: python -m src.models.register
+    deps:
+    - path: artifacts/models
+      hash: md5
+      md5: 62b2710a568cabc285432da45f33d53e.dir
+      size: 42851277
+      nfiles: 48
+    - path: artifacts/reports/summary.json
+      hash: md5
+      md5: be5ce30ac47688fe946705b2ac8efe70
+      size: 125
+    - path: src/models/register.py
+      hash: md5
+      md5: 890358bb96b74957b83f0d94d64c59ed
+      size: 2767
+    outs:
+    - path: artifacts/registry
+      hash: md5
+      md5: f504e5163d5c24750d182b60c91119f6.dir
+      size: 42854086
+      nfiles: 49
+  forecast_batch:
+    cmd: python -m src.pipelines.batch_forecast --horizons 24 --out_dir 
+      artifacts/forecasts
+    deps:
+    - path: artifacts/registry/staging/current
+      hash: md5
+      md5: c8fd6d6c11e3e55d0e4b39c3eadda296.dir
+      size: 42854086
+      nfiles: 49
+    - path: data/processed/features.parquet
+      hash: md5
+      md5: f6893d06fc73797904321d000411476f
+      size: 1961118
+    - path: src/pipelines/batch_forecast.py
+      hash: md5
+      md5: 2a48d9c1ca2e08b56b6680bf94efc795
+      size: 3729
+    outs:
+    - path: artifacts/forecasts
+      hash: md5
+      md5: 6dec429f5f0c8ac0e31b0faa9000f9ec.dir
+      size: 57593
+      nfiles: 3

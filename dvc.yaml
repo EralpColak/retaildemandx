@@ -32,3 +32,19 @@ stages:
       - src/models/evaluate.py
     outs:
       - artifacts/reports
+  register:
+    cmd: python -m src.models.register
+    deps:
+      - artifacts/models
+      - artifacts/reports/summary.json
+      - src/models/register.py
+    outs:
+      - artifacts/registry
+  forecast_batch:
+    cmd: python -m src.pipelines.batch_forecast --horizons 24 --out_dir artifacts/forecasts
+    deps:
+      - artifacts/registry/staging/current
+      - data/processed/features.parquet
+      - src/pipelines/batch_forecast.py
+    outs:
+      - artifacts/forecasts
