@@ -9,6 +9,8 @@ on:
 jobs:
   smoke:
     runs-on: ubuntu-latest
+    env:
+      PYTHONPATH: ${{ github.workspace }}
 
     steps:
       - name: Checkout
@@ -24,28 +26,34 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pytest
+          # ⬇️ pandera'yı explicit kur (pandas engine ile)
+          pip install "pandera[pandas]>=0.20.3"
 
-      
-      - name: Verify PYTHONPATH
-        env:
-          PYTHONPATH: ${{ github.workspace }}
+      - name: Verify env & list repo
+        run: |
+          echo "PYTHONPATH=$PYTHONPATH"
+          pwd
+          ls -R
+          python - <<'PY'
+          import sys, pathlib, pkgutil
+          print("cwd=", pathlib.Path.cwd())
+          print("exists ingest?", pathlib.Path("src/data/ingest_synthetic.py").exists())
+          print("src packages:", [m.name for m in pkgutil.iter_modules([str(pathlib.Path('src'))])])
+          PY
+
+      - name: Sanity import ingest_synthetic
         run: |
           python - <<'PY'
-          import os, sys, pathlib
-          print("PYTHONPATH=", os.environ.get("PYTHONPATH"))
-          print("CWD=", pathlib.Path.cwd())
-          print("Has src?:", (pathlib.Path("src").exists()))
-          print("sys.path[0]=", sys.path[0])
+          import importlib, pathlib
+          print("file exists:", pathlib.Path("src/data/ingest_synthetic.py").exists())
+          m = importlib.import_module("src.data.ingest_synthetic")
+          print("OK ->", m.__file__)
           PY
 
       - name: Run unit imports
-        env:
-          PYTHONPATH: ${{ github.workspace }}
         run: python -m pytest -q tests/test_imports.py
 
       - name: Run mini E2E smoke
-        env:
-          PYTHONPATH: ${{ github.workspace }}
         run: python ci/ci_smoke.py
 
       - name: Upload artifacts (reports & registry manifest)
