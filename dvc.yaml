@@ -15,3 +15,20 @@ stages:
       - src/features/build_features.py
     outs:
       - data/processed/features.parquet
+  train:
+    cmd: python -m src.models.train
+    deps:
+      - data/processed/features.parquet
+      - src/models/train.py
+    outs:
+      - artifacts/models
+    metrics:
+      - artifacts/metrics.json:
+          cache: false
+  evaluate:
+    cmd: python -m src.models.evaluate
+    deps:
+      - artifacts/models
+      - src/models/evaluate.py
+    outs:
+      - artifacts/reports
