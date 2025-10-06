@@ -1,4 +1,7 @@
-import pandera as pa
+try:
+    import pandera.pandas as pa
+except Exception:  
+    import pandera as pa
 import pandas as pd
 
 
