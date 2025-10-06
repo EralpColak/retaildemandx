@@ -19,30 +19,37 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Cache pip
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
-
-      - name: Install system deps (LightGBM build tools)
-        run: sudo apt-get update && sudo apt-get install -y build-essential
-
       - name: Install Python deps
         run: |
           python -m pip install --upgrade pip
           pip install -r requirements.txt
           pip install pytest
 
+      
+      - name: Verify PYTHONPATH
+        env:
+          PYTHONPATH: ${{ github.workspace }}
+        run: |
+          python - <<'PY'
+          import os, sys, pathlib
+          print("PYTHONPATH=", os.environ.get("PYTHONPATH"))
+          print("CWD=", pathlib.Path.cwd())
+          print("Has src?:", (pathlib.Path("src").exists()))
+          print("sys.path[0]=", sys.path[0])
+          PY
+
       - name: Run unit imports
-        run: pytest -q tests/test_imports.py
+        env:
+          PYTHONPATH: ${{ github.workspace }}
+        run: python -m pytest -q tests/test_imports.py
 
       - name: Run mini E2E smoke
+        env:
+          PYTHONPATH: ${{ github.workspace }}
         run: python ci/ci_smoke.py
 
       - name: Upload artifacts (reports & registry manifest)
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: rdx-artifacts
