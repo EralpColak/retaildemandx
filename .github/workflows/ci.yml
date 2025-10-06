@@ -30,17 +30,7 @@ jobs:
           pip install -r requirements.txt
           # test araçları
           pip install pytest
-      - name: Show pandera install
-        run: |
-          python - <<'PY'
-          import importlib, pkgutil
-          print("pandera in sys:", bool(pkgutil.find_loader("pandera")))
-          try:
-              m = importlib.import_module("pandera")
-              print("pandera OK ->", m.__file__)
-          except Exception as e:
-              print("pandera import ERROR:", e)
-          PY    
+        
       - name: Verify env & list repo
         run: |
           echo "PYTHONPATH=$PYTHONPATH"
