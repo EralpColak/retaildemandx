@@ -24,11 +24,23 @@ jobs:
       - name: Install Python deps
         run: |
           python -m pip install --upgrade pip
+          # pkg_resources için setuptools'ı önce kur
+          pip install "setuptools>=68,<81" wheel
+          # projenin bağımlılıkları
           pip install -r requirements.txt
+          # test araçları
           pip install pytest
-          # ⬇️ pandera'yı explicit kur (pandas engine ile)
-          pip install "pandera[pandas]>=0.20.3"
-
+      - name: Show pandera install
+        run: |
+          python - <<'PY'
+          import importlib, pkgutil
+          print("pandera in sys:", bool(pkgutil.find_loader("pandera")))
+          try:
+              m = importlib.import_module("pandera")
+              print("pandera OK ->", m.__file__)
+          except Exception as e:
+              print("pandera import ERROR:", e)
+          PY    
       - name: Verify env & list repo
         run: |
           echo "PYTHONPATH=$PYTHONPATH"
